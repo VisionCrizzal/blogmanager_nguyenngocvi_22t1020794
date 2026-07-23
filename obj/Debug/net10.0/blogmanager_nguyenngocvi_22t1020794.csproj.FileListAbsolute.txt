@@ -95,3 +95,4 @@
 /Users/crydamoure/Downloads/blogmanager/blogmanager_nguyenngocvi_22t1020794/obj/Debug/net10.0/blogmanager_nguyenngocvi_22t1020794.pdb
 /Users/crydamoure/Downloads/blogmanager/blogmanager_nguyenngocvi_22t1020794/obj/Debug/net10.0/blogmanager_nguyenngocvi_22t1020794.genruntimeconfig.cache
 /Users/crydamoure/Downloads/blogmanager/blogmanager_nguyenngocvi_22t1020794/obj/Debug/net10.0/ref/blogmanager_nguyenngocvi_22t1020794.dll
+/Users/crydamoure/Downloads/blogmanager/blogmanager_nguyenngocvi_22t1020794/obj/Debug/net10.0/blogmanager_nguyenngocvi_22t1020794.sourcelink.json
