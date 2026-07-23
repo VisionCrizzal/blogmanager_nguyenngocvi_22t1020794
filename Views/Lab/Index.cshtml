@@ -1,30 +1,31 @@
 @{
-    ViewData["Title"] = "Thực hành Buổi 2 - LINQ";
+    ViewData["Title"] = "Bài Tập Về Nhà - Buổi 2";
 }
 
-<h1>Kết quả thực hành trên lớp (Buổi 2)</h1>
+<h1>Bài Tập Về Nhà: LINQ & Extension Model</h1>
 
+<!-- Khối hiển thị 2 yêu cầu thống kê -->
 <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #0d6efd; margin-bottom: 20px;">
-    <h3>📊 Thống kê chung:</h3>
-    <p style="font-size: 16px;">
-        <strong>🔥 Tổng số lượt xem tất cả bài viết:</strong> @ViewBag.TongLuotXem lượt
+    <p style="font-size: 16px; margin-bottom: 8px;">
+        <strong>🔥 Tổng lượt xem tất cả bài viết:</strong> @ViewBag.TongLuotXem lượt
     </p>
-    <p style="font-size: 16px;">
+    <p style="font-size: 16px; margin: 0;">
         <strong>👑 Bài viết có nhiều lượt xem nhất:</strong> 
         @if (ViewBag.BaiXemNhiềuNhat != null)
         {
-            <span style="color: #d63384;">"@ViewBag.BaiXemNhiềuNhat.Title"</span> 
-            <span>- Tác giả: <strong>@ViewBag.BaiXemNhiềuNhat.Author</strong> (@ViewBag.BaiXemNhiềuNhat.ViewCount lượt xem)</span>
+            <span style="color: #d63384; font-weight: bold;">"@ViewBag.BaiXemNhiềuNhat.Title"</span> 
+            <span>(@ViewBag.BaiXemNhiềuNhat.ViewCount lượt xem)</span>
         }
     </p>
 </div>
 
-<h3>📚 Danh sách bài đã xuất bản (Sắp xếp lượt xem giảm dần)</h3>
+<!-- Khối hiển thị danh sách Top bài đã xuất bản theo ViewCount giảm dần -->
+<h3>📚 Danh sách bài viết đã xuất bản (Top theo lượt xem)</h3>
 <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; text-align: left; margin-top: 10px;">
     <thead style="background-color: #e9ecef;">
         <tr>
             <th>ID</th>
-            <th>Tiêu đề</th>
+            <th>Tiêu đề & Nhãn đánh giá</th>
             <th>Tác giả</th>
             <th>Ngày đăng</th>
             <th>Lượt xem</th>
@@ -33,9 +34,19 @@
     <tbody>
         @foreach (var post in ViewBag.BaiDaXuatBan)
         {
+            var nhan = post.NhanDanhGia();
+            var mauNhan = nhan == "Phổ biến" ? "#198754" : "#6c757d"; // Xanh cho phổ biến, Xám cho thường
+
             <tr>
                 <td>@post.Id</td>
-                <td>@post.Title</td>
+                <td>
+                    <!-- Hiển thị Tiêu đề -->
+                    <span style="font-weight: 500; margin-right: 8px;">@post.Title</span>
+                    <!-- Hiển thị Nhãn bên cạnh -->
+                    <span style="background-color: @mauNhan; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">
+                        @nhan
+                    </span>
+                </td>
                 <td>@post.Author</td>
                 <td>@post.PublishedAt.ToString("dd/MM/yyyy")</td>
                 <td><strong style="color: #0d6efd;">@post.ViewCount</strong></td>
