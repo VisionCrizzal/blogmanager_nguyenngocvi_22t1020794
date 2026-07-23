@@ -1,9 +1,45 @@
-<h1>Thử nghiệm C# và LINQ</h1>
-<p> Số bài đã xuất bản: <strong>@ViewBag.SoDaXuatBan</strong></p>
+@{
+    ViewData["Title"] = "Thực hành Buổi 2 - LINQ";
+}
 
-<ul>
-    @foreach (var title in ViewBag.TieuDe)
-    {
-        <li>@title</li>
-    }
-</ul>
+<h1>Kết quả thực hành trên lớp (Buổi 2)</h1>
+
+<div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #0d6efd; margin-bottom: 20px;">
+    <h3>📊 Thống kê chung:</h3>
+    <p style="font-size: 16px;">
+        <strong>🔥 Tổng số lượt xem tất cả bài viết:</strong> @ViewBag.TongLuotXem lượt
+    </p>
+    <p style="font-size: 16px;">
+        <strong>👑 Bài viết có nhiều lượt xem nhất:</strong> 
+        @if (ViewBag.BaiXemNhiềuNhat != null)
+        {
+            <span style="color: #d63384;">"@ViewBag.BaiXemNhiềuNhat.Title"</span> 
+            <span>- Tác giả: <strong>@ViewBag.BaiXemNhiềuNhat.Author</strong> (@ViewBag.BaiXemNhiềuNhat.ViewCount lượt xem)</span>
+        }
+    </p>
+</div>
+
+<h3>📚 Danh sách bài đã xuất bản (Sắp xếp lượt xem giảm dần)</h3>
+<table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; text-align: left; margin-top: 10px;">
+    <thead style="background-color: #e9ecef;">
+        <tr>
+            <th>ID</th>
+            <th>Tiêu đề</th>
+            <th>Tác giả</th>
+            <th>Ngày đăng</th>
+            <th>Lượt xem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in ViewBag.BaiDaXuatBan)
+        {
+            <tr>
+                <td>@post.Id</td>
+                <td>@post.Title</td>
+                <td>@post.Author</td>
+                <td>@post.PublishedAt.ToString("dd/MM/yyyy")</td>
+                <td><strong style="color: #0d6efd;">@post.ViewCount</strong></td>
+            </tr>
+        }
+    </tbody>
+</table>
