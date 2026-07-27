@@ -1,0 +1,24 @@
+@using blogmanager_nguyenngocvi_22t1020794.Models
+@model Post
+
+<!-- Thẻ Card Bootstrap hiển thị thông tin tóm tắt của 1 bài viết -->
+<div class="card h-100 shadow-sm border-primary border-opacity-25">
+    <div class="card-body">
+        <h5 class="card-title text-primary fw-bold">@Model.Title</h5>
+        <h6 class="card-subtitle mb-2 text-muted" style="font-size: 14px;">
+            ✍️ Tác giả: <strong>@Model.Author</strong>
+        </h6>
+        <!-- Hiển thị 1 đoạn ngắn nội dung bài viết -->
+        <p class="card-text text-truncate mt-3" style="max-height: 48px; color: #555;">
+            @Model.Content
+        </p>
+    </div>
+    <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+        <span class="badge bg-secondary">👁️ @Model.ViewCount view</span>
+        
+        <!-- Nút Xem chi tiết trỏ về Action Details -->
+        <a asp-controller="Posts" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
+            Xem chi tiết ➡
+        </a>
+    </div>
+</div>

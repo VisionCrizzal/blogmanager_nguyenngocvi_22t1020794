@@ -1,33 +1,23 @@
 @using blogmanager_nguyenngocvi_22t1020794.Models
 @model List<Post>
 
-<h1>Danh sách bài viết</h1>
+@{
+    ViewData["Title"] = "Danh sách bài viết";
+}
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Tiêu đề</th>
-            <th>Tác giả</th> <!-- 1. Thêm cột Tác giả -->
-            <th>Ngày đăng</th>
-            <th>Trạng thái</th>
-            <th>Thao tác</th> <!-- Thêm cột Thao tác -->
-        </tr>
-    </thead>
-    <tbody>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>📚 Danh sách bài viết (Giao diện Lưới)</h1>
+    <span class="badge bg-primary fs-6">Tổng: @Model.Count bài</span>
+</div>
+<hr />
+
+<!-- Sử dụng hệ thống lưới (Grid System) row / col của Bootstrap -->
+<div class="row row-cols-1 row-cols-md-3 g-4">
     @foreach (var post in Model)
     {
-        <tr>
-            <td>@post.Title</td>
-            <td><strong>@post.Author</strong></td> <!-- Hiển thị Tác giả -->
-            <td>@post.PublishedAt.ToString("dd/MM/yyyy")</td>
-            <td>@(post.IsPublished ? "Đã xuất bản" : "Nháp")</td>
-            <td>
-                <!-- 2. Nút Xem chi tiết sử dụng asp-action và asp-route-id -->
-                <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-sm btn-primary">
-                    Xem chi tiết
-                </a>
-            </td>
-        </tr>
+        <div class="col">
+            <!-- Tách biệt code: Gọi Partial View _PostCard và truyền dữ liệu từng bài vào -->
+            <partial name="_PostCard" model="post" />
+        </div>
     }
-    </tbody>
-</table>
+</div>
