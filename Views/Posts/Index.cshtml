@@ -1,0 +1,33 @@
+@using blogmanager_nguyenngocvi_22t1020794.Models
+@model List<Post>
+
+<h1>Danh sách bài viết</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tiêu đề</th>
+            <th>Tác giả</th> <!-- 1. Thêm cột Tác giả -->
+            <th>Ngày đăng</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th> <!-- Thêm cột Thao tác -->
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var post in Model)
+    {
+        <tr>
+            <td>@post.Title</td>
+            <td><strong>@post.Author</strong></td> <!-- Hiển thị Tác giả -->
+            <td>@post.PublishedAt.ToString("dd/MM/yyyy")</td>
+            <td>@(post.IsPublished ? "Đã xuất bản" : "Nháp")</td>
+            <td>
+                <!-- 2. Nút Xem chi tiết sử dụng asp-action và asp-route-id -->
+                <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-sm btn-primary">
+                    Xem chi tiết
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

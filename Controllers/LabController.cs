@@ -7,9 +7,9 @@ public class LabController : Controller
     {
         var baiViet = new List<Post>
         {
-            new Post { Id = 1, Title = "C# cơ bản", Author = "Ngọc Vi", ViewCount = 150, IsPublished = true },
+            new Post { Id = 1, Title = "C# cơ bản", Author = "Ngọc Vĩ", ViewCount = 150, IsPublished = true },
             new Post { Id = 2, Title = "MVC nhập môn", Author = "Quang Huy", ViewCount = 320, IsPublished = false },
-            new Post { Id = 3, Title = "EF Core chuyên sâu", Author = "Ngọc Vi", ViewCount = 580, IsPublished = true },
+            new Post { Id = 3, Title = "EF Core chuyên sâu", Author = "Ngọc Vĩ", ViewCount = 580, IsPublished = true },
             new Post { Id = 4, Title = "LINQ trong ASP.NET", Author = "Minh Tuấn", ViewCount = 450, IsPublished = true },
             new Post { Id = 5, Title = "Xây dựng RESTful API", Author = "Thu Hà", ViewCount = 210, IsPublished = true },
             new Post { Id = 6, Title = "Deploy web lên Cloud", Author = "Ngọc Vi", ViewCount = 85, IsPublished = true } // Bài này < 100 view để ra nhãn "Thường"

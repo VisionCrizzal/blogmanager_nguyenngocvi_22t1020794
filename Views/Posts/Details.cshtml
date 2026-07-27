@@ -1,0 +1,28 @@
+@using blogmanager_nguyenngocvi_22t1020794.Models
+@model Post
+
+@{
+    ViewData["Title"] = "Chi tiết bài viết";
+}
+
+<div class="card mt-3">
+    <div class="card-header bg-primary text-white">
+        <h2 style="margin: 0;">@Model.Title</h2>
+    </div>
+    <div class="card-body">
+        <p class="text-muted" style="font-size: 15px;">
+            ✍️ <strong>Tác giả:</strong> @Model.Author | 
+            📅 <strong>Ngày đăng:</strong> @Model.PublishedAt.ToString("dd/MM/yyyy") | 
+            👁️ <strong>Lượt xem:</strong> @Model.ViewCount
+        </p>
+        <hr />
+        <!-- Hiển thị nội dung chi tiết của bài viết -->
+        <div style="font-size: 16px; line-height: 1.6; color: #333;">
+            @Model.Content
+        </div>
+    </div>
+    <div class="card-footer">
+        <!-- Nút quay lại trang danh sách -->
+        <a asp-action="Index" class="btn btn-secondary">⬅ Quay lại danh sách</a>
+    </div>
+</div>
