@@ -68,9 +68,9 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Tạo file `Data/ApplicationDbContext.cs` — kế thừa `DbContext`, khai báo `DbSet<Post>`
 *   [x] Cập nhật `Program.cs` — đăng ký `ApplicationDbContext` vào DI container với connection string SQLite
 *   [x] Chạy migration đầu tiên: `dotnet ef migrations add KhoiTao` → `dotnet ef database update` → tạo `blogmanager.db`
-*   [ ] Tạo file `Data/DbInitializer.cs` — seed dữ liệu mẫu từ `GetDummyPosts()` vào database khi DB trống
-*   [ ] Refactor `PostsController.cs` — thay `GetDummyPosts()` bằng truy vấn từ `ApplicationDbContext` (Dependency Injection)
-*   [ ] Kiểm tra action `Index` và `Details` hoạt động với dữ liệu từ SQLite
+*   [x] Thêm dữ liệu mẫu (seed) cho Posts bằng `HasData()` trong `OnModelCreating`, migration `SeedPosts` và update
+*   [x] Refactor `PostsController.cs` — thay `GetDummyPosts()` bằng truy vấn từ `ApplicationDbContext` (Dependency Injection)
+*   [x] Kiểm tra action `Index` và `Details` hoạt động với dữ liệu từ SQLite
 
 ### 📝 Buổi 5–6 — CRUD + Tìm kiếm + Phân trang (TODO)
 *   [ ] Thêm action `Create` (GET + POST) vào `PostsController` — form tạo bài viết mới
