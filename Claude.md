@@ -64,10 +64,10 @@ Khi AI (Claude/Gemini) đọc file này để tiếp tục phát triển dự á
 Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các giai đoạn sau:
 
 ### 🔧 Buổi 4 — Tích hợp Database (TODO — Đang thực hiện)
-*   [ ] Cài package `Microsoft.EntityFrameworkCore.Sqlite` và `Microsoft.EntityFrameworkCore.Tools`
-*   [ ] Tạo file `Data/ApplicationDbContext.cs` — kế thừa `DbContext`, khai báo `DbSet<Post>`
-*   [ ] Cập nhật `Program.cs` — đăng ký `ApplicationDbContext` vào DI container với connection string SQLite
-*   [ ] Chạy migration đầu tiên: `dotnet ef migrations add InitialCreate` → `dotnet ef database update`
+*   [x] Cài package `Microsoft.EntityFrameworkCore`, `.Design`, `.Sqlite` (v10.0.10) + tool `dotnet-ef` (v10.0.10)
+*   [x] Tạo file `Data/ApplicationDbContext.cs` — kế thừa `DbContext`, khai báo `DbSet<Post>`
+*   [x] Cập nhật `Program.cs` — đăng ký `ApplicationDbContext` vào DI container với connection string SQLite
+*   [x] Chạy migration đầu tiên: `dotnet ef migrations add KhoiTao` → `dotnet ef database update` → tạo `blogmanager.db`
 *   [ ] Tạo file `Data/DbInitializer.cs` — seed dữ liệu mẫu từ `GetDummyPosts()` vào database khi DB trống
 *   [ ] Refactor `PostsController.cs` — thay `GetDummyPosts()` bằng truy vấn từ `ApplicationDbContext` (Dependency Injection)
 *   [ ] Kiểm tra action `Index` và `Details` hoạt động với dữ liệu từ SQLite

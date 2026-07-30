@@ -9,4 +9,5 @@ public class ApplicationDbContext : DbContext
         : base(options) { }
 
     public DbSet<Post> Posts => Set<Post>();
+    public DbSet<Category> Categories => Set<Category>();
 }
