@@ -90,3 +90,14 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 ### 🚀 Buổi 10–11 — Deploy & API (TODO)
 *   [ ] Đóng gói, triển khai (Deploy) website lên môi trường thực tế (Cloud)
 *   [ ] Xây dựng RESTful API để cấp dữ liệu cho thiết bị ngoại vi (Mobile/Client khác)
+
+## 7. Ý tưởng Mở rộng & Cảm hứng (Creative Playground)
+Nếu có thời gian rảnh rỗi và muốn làm gì đó "vượt ra ngoài bài giảng" để thoả mãn đam mê code, đây là một số ý tưởng cực hay để nâng cấp giao diện và tính năng cho dự án:
+*   ✨ **Giao diện Modern & Glassmorphism:** Áp dụng hiệu ứng kính mờ (`backdrop-filter`) cho các Card bài viết, làm hiệu ứng hover nổi bật (scale nhẹ 1.02x, đổ bóng `box-shadow` mượt mà).
+*   🌓 **Chế độ Tối/Sáng (Dark/Light Mode):** Tích hợp nút toggle chuyển đổi giao diện và tự động bắt theo prefer-color-scheme của hệ điều hành.
+*   🏷 **Hệ thống Badge Động:** Hiển thị màu sắc gradient khác nhau cho từng Category (ví dụ: "C#" màu tím, "MVC" màu lục lam).
+*   📝 **Trình soạn thảo Markdown/Rich Text:** Thay vì dùng form nhập liệu thô sơ, tích hợp ToastUI Editor, TinyMCE, hoặc EasyMDE để soạn thảo bài viết xịn xò.
+*   💬 **Hệ thống Bình luận (Comments):** Tạo tính năng bình luận dưới mỗi bài viết, tích hợp avatar ngẫu nhiên (như DiceBear API).
+*   🔔 **Toast Notifications cực mượt:** Dùng thư viện như SweetAlert2 hoặc Toastr thay thế cho thông báo `alert()` nhàm chán của trình duyệt.
+*   🎨 **Font chữ ấn tượng:** Sử dụng Google Fonts (như `Inter`, `Outfit`, hoặc `Plus Jakarta Sans`) kết hợp với typography hiện đại.
+*   🚀 **Hiệu ứng Scroll (Scroll Reveal):** Các thẻ bài viết tự động trượt lên, hiện ra từ từ khi người dùng cuộn trang (sử dụng thư viện AOS hoặc Intersection Observer API).
