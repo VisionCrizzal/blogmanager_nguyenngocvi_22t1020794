@@ -3,7 +3,7 @@
 Dự án này được xây dựng xuyên suốt môn học **Lập trình ứng dụng Web**. Đây là hệ thống quản lý blog cá nhân được phát triển bằng nền tảng ASP.NET Core MVC.
 
 ## 🎓 Thông tin sinh viên
-- **Họ và tên:** Nguyễn Ngọc Vi
+- **Họ và tên:** Nguyễn Ngọc Vĩ
 - **Mã sinh viên:** 22T1020794
 
 ## 🛠 Công nghệ sử dụng
