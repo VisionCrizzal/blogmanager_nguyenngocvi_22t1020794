@@ -14,11 +14,14 @@
         <nav class="navbar navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid justify-content-start">
                 <a class="navbar-brand me-2" asp-area="" asp-controller="Home" asp-action="Index">Nguyễn Ngọc Vĩ</a>
-                
-                <div class="dropdown">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0.25rem 0.5rem; font-size: 1rem;">
-                        <span class="navbar-toggler-icon"></span>
+                <div class="d-flex align-items-center">
+                    <button id="theme-toggle" class="btn btn-link text-decoration-none me-2 p-0" style="font-size: 1.25rem;" title="Toggle Theme">
+                        <span id="theme-icon">🌙</span>
                     </button>
+                    <div class="dropdown">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0.25rem 0.5rem; font-size: 1rem;">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
                     <ul class="dropdown-menu shadow mt-2">
                         <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="Posts" asp-action="Index">Blog (Bài viết)</a></li>
@@ -27,6 +30,7 @@
                         <li><a class="dropdown-item" asp-area="" asp-controller="Lab" asp-action="Index">Lab 1</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="Lab" asp-action="TopView">Lab 2</a></li>
                     </ul>
+                </div>
                 </div>
             </div>
         </nav>

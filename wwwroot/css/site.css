@@ -29,3 +29,42 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Catppuccin Frappé Dark Mode */
+[data-bs-theme="dark"] {
+  --bs-body-bg: #303446;
+  --bs-body-color: #c6d0f5;
+  --bs-tertiary-bg: #292c3c;
+  --bs-secondary-bg: #232634;
+  --bs-border-color: #414559;
+  --bs-primary: #8caaee;
+  --bs-link-color: #8caaee;
+  --bs-link-hover-color: #babbf1;
+}
+
+[data-bs-theme="dark"] .bg-white {
+  background-color: #292c3c !important; 
+}
+
+[data-bs-theme="dark"] .navbar {
+  background-color: #232634 !important;
+  border-color: #414559 !important;
+}
+
+[data-bs-theme="dark"] .dropdown-menu {
+  background-color: #292c3c;
+  border-color: #414559;
+}
+
+[data-bs-theme="dark"] .dropdown-item, [data-bs-theme="dark"] .navbar-brand {
+  color: #c6d0f5 !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:hover {
+  background-color: #414559;
+  color: #e5c890 !important;
+}
+
+[data-bs-theme="dark"] .navbar-toggler-icon {
+  filter: invert(1);
+}
