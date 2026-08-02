@@ -101,3 +101,34 @@ Nếu có thời gian rảnh rỗi và muốn làm gì đó "vượt ra ngoài b
 *   🔔 **Toast Notifications cực mượt:** Dùng thư viện như SweetAlert2 hoặc Toastr thay thế cho thông báo `alert()` nhàm chán của trình duyệt.
 *   🎨 **Font chữ ấn tượng:** Sử dụng Google Fonts (như `Inter`, `Outfit`, hoặc `Plus Jakarta Sans`) kết hợp với typography hiện đại.
 *   🚀 **Hiệu ứng Scroll (Scroll Reveal):** Các thẻ bài viết tự động trượt lên, hiện ra từ từ khi người dùng cuộn trang (sử dụng thư viện AOS hoặc Intersection Observer API).
+
+## 8. Skill UI/UX Pro Max (Đã cài đặt)
+Dự án đã tích hợp skill **UI/UX Pro Max** tại `.agent/skills/ui-ux-pro-max/`. Đây là bộ trí tuệ thiết kế chứa 67 phong cách UI, 96 bảng màu, 57 cặp font, 99 guideline UX, và 25 loại biểu đồ.
+
+### Khi nào sử dụng?
+Khi nhận yêu cầu liên quan đến giao diện — thiết kế mới, nâng cấp UI, chọn màu sắc/font, hoặc triển khai trang Landing Page — **bắt buộc** chạy skill này trước khi code.
+
+### Cách sử dụng (Quy trình 4 bước)
+1.  **Tạo Design System (Bắt buộc):**
+    ```bash
+    python3 .agent/skills/ui-ux-pro-max/scripts/search.py "<từ khóa mô tả>" --design-system -p "BlogManager"
+    ```
+2.  **Tra cứu chi tiết theo domain** (nếu cần thêm):
+    ```bash
+    python3 .agent/skills/ui-ux-pro-max/scripts/search.py "<từ khóa>" --domain <style|typography|color|ux|chart|landing>
+    ```
+3.  **Lưu Design System** (để dùng xuyên phiên làm việc):
+    ```bash
+    python3 .agent/skills/ui-ux-pro-max/scripts/search.py "<từ khóa>" --design-system --persist -p "BlogManager"
+    ```
+4.  **Checklist trước khi giao UI:**
+    *   Không dùng emoji làm icon UI (dùng SVG: Heroicons, Lucide)
+    *   Tất cả phần tử bấm được phải có `cursor: pointer`
+    *   Kiểm tra Dark Mode Catppuccin Frappé — chữ phải đủ tương phản (4.5:1)
+    *   Responsive ở 375px, 768px, 1024px, 1440px
+    *   Không bị cuộn ngang trên mobile
+
+### Lưu ý cho dự án này
+*   Stack mặc định: **ASP.NET Core MVC + Bootstrap** (không dùng Tailwind trừ khi có yêu cầu)
+*   Dark Mode hiện tại: **Catppuccin Frappé** — mọi thay đổi giao diện phải tương thích cả 2 chế độ sáng/tối
+*   Tránh fix cứng màu chữ bằng inline style (đã gặp lỗi ở Views/Posts trước đó)
