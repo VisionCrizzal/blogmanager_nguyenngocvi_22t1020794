@@ -132,3 +132,24 @@ Khi nhận yêu cầu liên quan đến giao diện — thiết kế mới, nân
 *   Stack mặc định: **ASP.NET Core MVC + Bootstrap** (không dùng Tailwind trừ khi có yêu cầu)
 *   Dark Mode hiện tại: **Catppuccin Frappé** — mọi thay đổi giao diện phải tương thích cả 2 chế độ sáng/tối
 *   Tránh fix cứng màu chữ bằng inline style (đã gặp lỗi ở Views/Posts trước đó)
+
+## 9. Các Skill Bổ trợ Chất lượng Code (Đã cài đặt)
+Ngoài skill UI/UX, dự án còn được trang bị 3 skill hỗ trợ kiểm soát chất lượng code tại `.agent/skills/`:
+
+### 9.1. Code Review AI (`code-review-ai-ai-review`)
+**Mục đích:** Review code tự động kết hợp phân tích tĩnh (SonarQube, CodeQL, Semgrep) và AI (Claude/GPT) để phát hiện lỗi bảo mật, hiệu năng, kiến trúc.
+*   **Khi nào dùng:** Khi cần review Pull Request, kiểm tra bảo mật (OWASP Top 10), phát hiện N+1 query, hoặc đánh giá chất lượng code trước khi merge.
+*   **Phân loại mức độ:** CRITICAL → HIGH → MEDIUM → LOW → INFO
+*   **Lưu ý cho dự án:** Đặc biệt hữu ích khi tích hợp Entity Framework Core — giúp phát hiện vấn đề N+1 query, thiếu index, và SQL injection tiềm ẩn.
+
+### 9.2. Code Refactoring (`code-refactoring-refactor-clean`)
+**Mục đích:** Phân tích và tái cấu trúc code theo nguyên tắc Clean Code và SOLID, giảm code smell, tăng khả năng bảo trì.
+*   **Khi nào dùng:** Khi code bị rối, trùng lặp nhiều, hoặc cần chuẩn bị module cho tính năng mới.
+*   **Không dùng khi:** Chỉ cần sửa 1 dòng nhỏ, hoặc đang trong giai đoạn "change freeze".
+*   **Quy trình:** Đánh giá code smell → Lập kế hoạch refactor từng bước → Áp dụng thay đổi nhỏ → Chạy test kiểm tra regression.
+
+### 9.3. Codebase Cleanup & Tech Debt (`codebase-cleanup-tech-debt`)
+**Mục đích:** Nhận diện, đo lường và lập kế hoạch xử lý Technical Debt (nợ kỹ thuật) trong dự án.
+*   **Khi nào dùng:** Khi cần đánh giá tổng thể sức khoẻ codebase, lập roadmap dọn dẹp code, hoặc báo cáo nợ kỹ thuật.
+*   **Phân loại nợ:** Code Debt (trùng lặp, phức tạp) → Architecture Debt (thiết kế sai) → Testing Debt (thiếu test) → Documentation Debt → Infrastructure Debt.
+*   **Đầu ra:** Bảng kiểm kê nợ kỹ thuật, phân tích tác động (ROI), roadmap ưu tiên theo quý, Quick Wins cho sprint hiện tại.
