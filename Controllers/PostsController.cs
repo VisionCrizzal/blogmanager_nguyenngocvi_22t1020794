@@ -38,5 +38,56 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
 
             return View(post); 
         }
+        public IActionResult Create() => View();
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Post post)
+        {
+            if (!ModelState.IsValid)
+                return View(post);
+
+            _context.Posts.Add(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null) return NotFound();
+            return View(post);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Post post)
+        {
+            if (id != post.Id) return NotFound();
+            if (!ModelState.IsValid) return View(post);
+
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null) return NotFound();
+            return View(post);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var post = await _context.Posts.FindAsync(id);
+            if (post != null) 
+            { 
+                _context.Posts.Remove(post);
+                await _context.SaveChangesAsync(); 
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -73,11 +73,11 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Kiểm tra action `Index` và `Details` hoạt động với dữ liệu từ SQLite
 
 ### 📝 Buổi 5–6 — CRUD + Tìm kiếm + Phân trang (TODO)
-*   [ ] Thêm action `Create` (GET + POST) vào `PostsController` — form tạo bài viết mới
-*   [ ] Thêm action `Edit` (GET + POST) — form chỉnh sửa bài viết
-*   [ ] Thêm action `Delete` (GET + POST) — xác nhận và xóa bài viết
-*   [ ] Tạo các View tương ứng: `Create.cshtml`, `Edit.cshtml`, `Delete.cshtml`
-*   [ ] Thêm Data Annotations vào `Post.cs` (`[Required]`, `[StringLength]`, `[Display]`) để validate form
+*   [x] Thêm action `Create` (GET + POST) vào `PostsController` — form tạo bài viết mới
+*   [x] Thêm action `Edit` (GET + POST) — form chỉnh sửa bài viết
+*   [x] Thêm action `Delete` (GET + POST) — xác nhận và xóa bài viết
+*   [x] Tạo các View tương ứng: `Create.cshtml`, `Edit.cshtml`, `Delete.cshtml`
+*   [x] Thêm Data Annotations vào `Post.cs` (`[Required]`, `[StringLength]`, `[Display]`) để validate form
 *   [ ] Implement tìm kiếm (Search) theo Title/Author
 *   [ ] Implement phân trang (Pagination) cho danh sách bài viết
 *   [ ] Thiết kế `ViewModel` chuyên biệt nếu cần gom dữ liệu phức tạp

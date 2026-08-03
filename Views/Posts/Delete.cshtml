@@ -1,0 +1,20 @@
+@model blogmanager_nguyenngocvi_22t1020794.Models.Post
+
+@{
+    ViewData["Title"] = "Xoá bài viết";
+}
+
+<div class="card shadow-sm border-danger border-opacity-50 bg-glass p-4 mt-4" style="max-width: 600px; margin: 0 auto;">
+    <h2 class="text-danger">🗑️ Xác nhận xoá</h2>
+    <hr />
+
+    <div class="alert alert-warning">
+        Bạn có chắc chắn muốn xoá bài viết <strong>@Model.Title</strong> không? Thao tác này không thể hoàn tác.
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Đúng, hãy xoá!</button>
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Hủy</a>
+    </form>
+</div>

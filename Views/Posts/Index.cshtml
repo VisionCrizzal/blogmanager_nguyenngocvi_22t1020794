@@ -6,8 +6,11 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>📚 Danh sách bài viết (Giao diện Lưới)</h1>
-    <span class="badge bg-primary fs-6">Tổng: @Model.Count bài</span>
+    <h1>📚 Danh sách bài viết</h1>
+    <div>
+        <a asp-action="Create" class="btn btn-success me-2">+ Tạo mới</a>
+        <span class="badge bg-primary fs-6">Tổng: @Model.Count bài</span>
+    </div>
 </div>
 <hr />
 
