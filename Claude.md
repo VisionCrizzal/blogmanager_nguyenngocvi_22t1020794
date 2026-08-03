@@ -133,6 +133,18 @@ Khi nhận yêu cầu liên quan đến giao diện — thiết kế mới, nân
 *   Dark Mode hiện tại: **Catppuccin Frappé** — mọi thay đổi giao diện phải tương thích cả 2 chế độ sáng/tối
 *   Tránh fix cứng màu chữ bằng inline style (đã gặp lỗi ở Views/Posts trước đó)
 
+### Sự phối hợp hoàn hảo: UI UX Pro Max & Magic MCP
+Cùng với UI/UX Pro Max, hệ thống đã được cài đặt **Magic MCP (@21st-dev/magic)** để tạo thành combo thiết kế - lập trình tự động:
+
+*   **UI UX Pro Max (Kiến trúc sư thiết kế):** Là Skill (file-based). Đảm nhận việc cung cấp Style, Color, Font, và các UX rules. Hoạt động offline không cần internet.
+*   **Magic MCP (Kho vật liệu xây dựng):** Là MCP Server (API-based). Đảm nhận việc cung cấp kho Code components React + Tailwind CSS sẵn dùng từ 21st.dev. Cần kết nối internet.
+
+**Quy trình phối hợp (Tự động hóa hoàn toàn bởi AI):**
+1.  **Bạn yêu cầu:** Ví dụ "Tạo landing page cho startup fintech".
+2.  **UI UX Pro Max phân tích:** AI sử dụng Skill để tạo Design System hoàn chỉnh (chọn Glassmorphism, Dark Mode, bảng màu, font chữ...).
+3.  **Magic MCP tìm Components:** AI gọi API của 21st.dev để tìm và lấy code sẵn của Hero section, Feature grid, Testimonial slider, v.v.
+4.  **AI kết hợp & Build:** AI lấy components từ Magic MCP, sau đó tùy chỉnh màu sắc, khoảng cách, font chữ theo đúng Design System của UI UX Pro Max, và tự động tích hợp code vào dự án.
+
 ## 9. Các Skill Bổ trợ Chất lượng Code (Đã cài đặt)
 Ngoài skill UI/UX, dự án còn được trang bị 3 skill hỗ trợ kiểm soát chất lượng code tại `.agent/skills/`:
 
