@@ -10,9 +10,13 @@
         <h2 style="margin: 0;">@Model.Title</h2>
     </div>
     <div class="card-body">
-        <p class="text-muted" style="font-size: 15px;">
-            ✍️ <strong>Tác giả:</strong> @Model.Author | 
-            📅 <strong>Ngày đăng:</strong> @Model.PublishedAt.ToString("dd/MM/yyyy") | 
+        <p class="text-muted mb-1" style="font-size: 15px;">
+            ✍️ <strong>Tác giả:</strong> @Model.Author
+        </p>
+        <p class="text-muted mb-1" style="font-size: 15px;">
+            📅 <strong>Ngày đăng:</strong> @Model.PublishedAt.ToString("dd/MM/yyyy")
+        </p>
+        <p class="text-muted mb-0" style="font-size: 15px;">
             👁️ <strong>Lượt xem:</strong> @Model.ViewCount
         </p>
         <hr />
