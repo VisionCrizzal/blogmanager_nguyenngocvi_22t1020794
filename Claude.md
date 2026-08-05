@@ -158,8 +158,8 @@ Cùng với UI/UX Pro Max, hệ thống đã được cài đặt **Magic MCP (@
 3.  **Magic MCP tìm Components:** AI gọi API của 21st.dev để tìm và lấy code sẵn của Hero section, Feature grid, Testimonial slider, v.v.
 4.  **AI kết hợp & Build:** AI lấy components từ Magic MCP, sau đó tùy chỉnh màu sắc, khoảng cách, font chữ theo đúng Design System của UI UX Pro Max, và tự động tích hợp code vào dự án.
 
-## 9. Các Skill Bổ trợ Chất lượng Code (Đã cài đặt)
-Ngoài skill UI/UX, dự án còn được trang bị 3 skill hỗ trợ kiểm soát chất lượng code tại `.agent/skills/`:
+## 9. Các Skill Bổ trợ Chất lượng Code & Hiệu năng (Đã cài đặt)
+Ngoài skill UI/UX, dự án còn được trang bị 4 skill hỗ trợ kiểm soát chất lượng code và hiệu năng tại `.agent/skills/`:
 
 ### 9.1. Code Review AI (`code-review-ai-ai-review`)
 **Mục đích:** Review code tự động kết hợp phân tích tĩnh (SonarQube, CodeQL, Semgrep) và AI (Claude/GPT) để phát hiện lỗi bảo mật, hiệu năng, kiến trúc.
@@ -178,3 +178,10 @@ Ngoài skill UI/UX, dự án còn được trang bị 3 skill hỗ trợ kiểm 
 *   **Khi nào dùng:** Khi cần đánh giá tổng thể sức khoẻ codebase, lập roadmap dọn dẹp code, hoặc báo cáo nợ kỹ thuật.
 *   **Phân loại nợ:** Code Debt (trùng lặp, phức tạp) → Architecture Debt (thiết kế sai) → Testing Debt (thiếu test) → Documentation Debt → Infrastructure Debt.
 *   **Đầu ra:** Bảng kiểm kê nợ kỹ thuật, phân tích tác động (ROI), roadmap ưu tiên theo quý, Quick Wins cho sprint hiện tại.
+
+### 9.4. Web Performance Optimization (`web_performance_optimization`)
+**Mục đích:** Tối ưu hiệu năng website toàn diện — tốc độ tải trang, Core Web Vitals (LCP, FID, CLS), kích thước bundle, các chiến lược caching, và hiệu năng runtime.
+*   **Khi nào dùng:** Khi trang web tải chậm, điểm Lighthouse thấp, hoặc cần tối ưu trước khi deploy lên production. Đặc biệt hữu ích khi chuẩn bị cho Buổi 10–11 (Deploy).
+*   **Không dùng khi:** Đang trong giai đoạn prototype/MVP, chưa có người dùng thực.
+*   **Quy trình:** Đo hiệu năng (Lighthouse) → Xác định bottleneck → Ưu tiên tối ưu (hình ảnh WebP/AVIF, lazy load, code splitting, critical CSS) → Kiểm tra lại số liệu.
+*   **Lưu ý cho dự án:** Hỗ trợ tối ưu cả Frontend (hình ảnh, JS, CSS) và Backend (EF Core query, caching, response compression). Có thể kết hợp với Chrome DevTools MCP để đo LCP, CLS trực tiếp.
