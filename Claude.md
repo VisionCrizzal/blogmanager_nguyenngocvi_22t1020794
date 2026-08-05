@@ -159,7 +159,7 @@ Cùng với UI/UX Pro Max, hệ thống đã được cài đặt **Magic MCP (@
 4.  **AI kết hợp & Build:** AI lấy components từ Magic MCP, sau đó tùy chỉnh màu sắc, khoảng cách, font chữ theo đúng Design System của UI UX Pro Max, và tự động tích hợp code vào dự án.
 
 ## 9. Các Skill Bổ trợ Chất lượng Code & Hiệu năng (Đã cài đặt)
-Ngoài skill UI/UX, dự án còn được trang bị 4 skill hỗ trợ kiểm soát chất lượng code và hiệu năng tại `.agent/skills/`:
+Ngoài skill UI/UX, dự án còn được trang bị 5 skill hỗ trợ kiểm soát chất lượng code và hiệu năng tại `.agent/skills/`:
 
 ### 9.1. Code Review AI (`code-review-ai-ai-review`)
 **Mục đích:** Review code tự động kết hợp phân tích tĩnh (SonarQube, CodeQL, Semgrep) và AI (Claude/GPT) để phát hiện lỗi bảo mật, hiệu năng, kiến trúc.
@@ -180,8 +180,28 @@ Ngoài skill UI/UX, dự án còn được trang bị 4 skill hỗ trợ kiểm 
 *   **Đầu ra:** Bảng kiểm kê nợ kỹ thuật, phân tích tác động (ROI), roadmap ưu tiên theo quý, Quick Wins cho sprint hiện tại.
 
 ### 9.4. Web Performance Optimization (`web_performance_optimization`)
-**Mục đích:** Tối ưu hiệu năng website toàn diện — tốc độ tải trang, Core Web Vitals (LCP, FID, CLS), kích thước bundle, các chiến lược caching, và hiệu năng runtime.
+**Mục đích:** Tối ưu hiệu năng website toàn diện — tốc độ tải trang, Core Web Vitals (LCP, FID, CLS), kích thước bundle, caching, và runtime performance. Phiên bản mới (647 dòng) cực kỳ chi tiết với ví dụ code thực tế, checklist, và danh sách công cụ đo lường.
 *   **Khi nào dùng:** Khi trang web tải chậm, điểm Lighthouse thấp, hoặc cần tối ưu trước khi deploy lên production. Đặc biệt hữu ích khi chuẩn bị cho Buổi 10–11 (Deploy).
 *   **Không dùng khi:** Đang trong giai đoạn prototype/MVP, chưa có người dùng thực.
-*   **Quy trình:** Đo hiệu năng (Lighthouse) → Xác định bottleneck → Ưu tiên tối ưu (hình ảnh WebP/AVIF, lazy load, code splitting, critical CSS) → Kiểm tra lại số liệu.
-*   **Lưu ý cho dự án:** Hỗ trợ tối ưu cả Frontend (hình ảnh, JS, CSS) và Backend (EF Core query, caching, response compression). Có thể kết hợp với Chrome DevTools MCP để đo LCP, CLS trực tiếp.
+*   **Quy trình 5 bước:** Đo hiệu năng (Lighthouse) → Xác định vấn đề → Ưu tiên tối ưu → Implement (hình ảnh WebP/AVIF, lazy load, code splitting, critical CSS, caching) → Verify bằng số liệu trước/sau.
+*   **Bao gồm:**
+    *   Ví dụ chi tiết: Tối ưu Core Web Vitals, giảm bundle JS, tối ưu hình ảnh
+    *   Best Practices (Do / Don't) và Common Pitfalls
+    *   Performance Checklist (Images, JS, CSS, Caching, Core Web Vitals)
+    *   Danh sách công cụ: Lighthouse, WebPageTest, webpack-bundle-analyzer, PageSpeed Insights, v.v.
+*   **Lưu ý cho dự án:** Hỗ trợ tối ưu cả Frontend (hình ảnh, JS, CSS) và Backend (EF Core query, caching, response compression). Kết hợp được với Chrome DevTools MCP để đo LCP, CLS trực tiếp.
+*   **⚠️ Lưu ý tương thích:** Skill này được thiết kế gốc cho **Claude Code** (terminal-based). Trên **Antigravity IDE**, hầu hết nội dung vẫn hoạt động tốt (hướng dẫn tối ưu, checklist, ví dụ code). Tuy nhiên, một số lệnh CLI cụ thể (ví dụ: `lighthouse`, `webpack-bundle-analyzer`) có thể cần điều chỉnh cách chạy tùy vào môi trường. Các phần liên quan đến React/Next.js chỉ mang tính tham khảo vì dự án này dùng ASP.NET Core MVC.
+
+### 9.5. Error Handling Patterns (`error-handling-patterns`)
+**Mục đích:** Hướng dẫn xây dựng ứng dụng bền vững với các chiến lược xử lý lỗi chuyên nghiệp — Exceptions, Result Types, Error Propagation, Circuit Breaker, và Graceful Degradation. Bao gồm SKILL.md (122 dòng) và `references/details.md` (517 dòng) với ví dụ code đa ngôn ngữ.
+*   **Khi nào dùng:** Khi thiết kế xử lý lỗi cho feature mới, xây dựng API, debug lỗi production, hoặc cải thiện độ ổn định ứng dụng.
+*   **Không dùng khi:** Chỉ cần sửa 1 lỗi nhỏ đơn lẻ, hoặc đang làm prototype nhanh không cần error handling tỉ mỉ.
+*   **Nội dung chính:**
+    *   Triết lý: Exceptions vs Result Types vs Error Codes vs Option/Maybe
+    *   Phân loại lỗi: Recoverable (network timeout, invalid input) vs Unrecoverable (OOM, null pointer)
+    *   Ví dụ code: Python, TypeScript/JavaScript, Rust, Go
+    *   3 Universal Patterns: Circuit Breaker, Error Aggregation, Graceful Degradation
+    *   8 Best Practices: Fail Fast, Preserve Context, Meaningful Messages, Clean Up Resources...
+    *   7 Common Pitfalls: Catching Too Broadly, Empty Catch Blocks, Logging and Re-throwing...
+*   **Lưu ý cho dự án:** Dùng C# nên áp dụng tư duy Exception Hierarchy (giống mẫu Python/TypeScript trong skill). Đặc biệt hữu ích khi xây dựng API (Buổi 10–11) và xử lý lỗi trong Controller/Service layer.
+*   **⚠️ Lưu ý tương thích:** Skill gốc từ **Claude Code**. Ví dụ code là Python/TS/Rust/Go, không có C# trực tiếp — nhưng các pattern (Circuit Breaker, Retry, Graceful Degradation) áp dụng được cho mọi ngôn ngữ. AI Agent cần tự chuyển đổi sang C# khi implement.
