@@ -90,8 +90,8 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Thêm Data Annotations vào `Post.cs` (`[Required]`, `[StringLength]`, `[Display]`) để validate form
 *   [x] Sửa lỗi validation form Edit (Author bị null → ModelState invalid)
 *   [x] Tối ưu responsive mobile toàn bộ web (CSS media queries)
-*   [ ] Implement tìm kiếm (Search) theo Title/Author
-*   [ ] Implement phân trang (Pagination) cho danh sách bài viết
+*   [x] Implement tìm kiếm (Search) theo Title/Author
+*   [x] Implement phân trang (Pagination) cho danh sách bài viết
 *   [ ] Thiết kế `ViewModel` chuyên biệt nếu cần gom dữ liệu phức tạp
 
 ### 🔐 Buổi 7 — Identity & Phân quyền (TODO)

@@ -8,12 +8,13 @@
     <h2>✏️ Chỉnh sửa bài viết</h2>
     <hr />
 
-    <form asp-action="Edit" method="post">
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
         <div asp-validation-summary="All" class="text-danger fw-bold"></div>
         
         <!-- Cần phải có trường Id ẩn (hidden) để EF Core biết là đang update bài nào -->
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="ViewCount" />
+        <input type="hidden" asp-for="IsPublished" />
 
         <div class="mb-3">
             <label asp-for="Title" class="form-label fw-bold"></label>

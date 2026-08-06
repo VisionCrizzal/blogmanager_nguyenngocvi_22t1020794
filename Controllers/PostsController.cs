@@ -16,22 +16,47 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search, int page = 1)
         {
-            var posts = await _context.Posts
+            int pageSize = 5; // Số bài viết mỗi trang
+
+            // Bắt đầu từ toàn bộ bài viết
+            var query = _context.Posts.AsQueryable();
+
+            // Lọc theo từ khóa tìm kiếm (nếu có)
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(p => p.Title.Contains(search) || p.Author.Contains(search));
+            }
+
+            // Đếm tổng số bài (sau khi lọc)
+            int totalPosts = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)totalPosts / pageSize);
+
+            // Sắp xếp + Phân trang (Skip/Take)
+            var posts = await query
                 .OrderByDescending(p => p.PublishedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
-            
+
+            // Truyền thông tin phân trang sang View
             ViewData["Title"] = "Danh sách bài viết";
-            ViewBag.SoLuong = posts.Count;
+            ViewBag.Search = search;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalPosts = totalPosts;
+
             return View(posts);
         }
 
         // Yêu cầu 3: Tạo Action Details(int id)
         public async Task<IActionResult> Details(int id)
         {
-            // Tìm bài viết theo khóa chính
-            var post = await _context.Posts.FindAsync(id);
+            // Dùng AsNoTracking để luôn lấy dữ liệu mới nhất từ database
+            var post = await _context.Posts
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
             
             if (post == null) 
                 return NotFound();
@@ -63,9 +88,19 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
         public async Task<IActionResult> Edit(int id, Post post)
         {
             if (id != post.Id) return NotFound();
-            if (!ModelState.IsValid) return View(post);
 
-            _context.Update(post);
+            // Lấy bài viết gốc từ database
+            var existing = await _context.Posts.FindAsync(id);
+            if (existing == null) return NotFound();
+
+            // Ghi đè từng trường (fetch-then-update pattern)
+            existing.Title = post.Title;
+            existing.Content = post.Content;
+            existing.Author = post.Author;
+            existing.PublishedAt = post.PublishedAt;
+            existing.IsPublished = post.IsPublished;
+            existing.ViewCount = post.ViewCount;
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

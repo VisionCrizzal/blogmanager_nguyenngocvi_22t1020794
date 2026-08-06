@@ -3,24 +3,114 @@
 
 @{
     ViewData["Title"] = "Danh sách bài viết";
+    var search = ViewBag.Search as string;
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    int totalPosts = ViewBag.TotalPosts;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>📚 Danh sách bài viết</h1>
-    <div>
-        <a asp-action="Create" class="btn btn-success me-2">+ Tạo mới</a>
-        <span class="badge bg-primary fs-6">Tổng: @Model.Count bài</span>
-    </div>
-</div>
-<hr />
+<h1>Danh sách bài viết</h1>
 
-<!-- Sử dụng hệ thống lưới (Grid System) row / col của Bootstrap -->
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var post in Model)
-    {
-        <div class="col">
-            <!-- Tách biệt code: Gọi Partial View _PostCard và truyền dữ liệu từng bài vào -->
-            <partial name="_PostCard" model="post" />
-        </div>
-    }
-</div>
+<!-- Nút Thêm bài viết -->
+<a asp-action="Create" class="btn btn-outline-success mb-3">⊕ Thêm bài viết</a>
+
+<!-- Thanh tìm kiếm -->
+<form asp-action="Index" method="get" class="d-flex mb-3" style="max-width: 400px;">
+    <input type="text" name="search" value="@search" class="form-control me-2" placeholder="Tìm kiếm theo tiêu đề hoặc tác giả..." />
+    <button type="submit" class="btn btn-primary">🔍 Tìm kiếm</button>
+</form>
+
+@if (!string.IsNullOrEmpty(search))
+{
+    <p class="text-muted">Kết quả tìm kiếm cho: "<strong>@search</strong>" — @totalPosts kết quả</p>
+}
+
+<!-- Bảng danh sách bài viết -->
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Tiêu đề</th>
+            <th>Ngày xuất bản</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+                <td>@post.Title</td>
+                <td>@post.PublishedAt.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @if (post.IsPublished)
+                    {
+                        <span class="badge bg-success">🟢 Đang xuất bản</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">📝 Bản nháp</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-sm btn-outline-info">Xem chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-outline-warning">✏ Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-outline-secondary">🗑 Xóa (trang)</a>
+                    <!-- Nút Xóa bằng Modal -->
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                            data-bs-toggle="modal" data-bs-target="#deleteModal-@post.Id">
+                        🗑 Xóa (modal)
+                    </button>
+                </td>
+            </tr>
+
+            <!-- Modal xác nhận xóa cho từng bài viết -->
+            <div class="modal fade" id="deleteModal-@post.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@post.Id" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel-@post.Id">Xác nhận xóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa bài viết <strong>"@post.Title"</strong> không?
+                            <br />Thao tác này không thể hoàn tác.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <form asp-action="Delete" asp-route-id="@post.Id" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger">Đúng, hãy xóa!</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
+
+<!-- Phân trang -->
+@if (totalPages > 1)
+{
+    <nav aria-label="Phân trang">
+        <ul class="pagination justify-content-center">
+            @* Nút Previous *@
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-search="@search">«</a>
+            </li>
+
+            @* Các số trang *@
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@search">@i</a>
+                </li>
+            }
+
+            @* Nút Next *@
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-search="@search">»</a>
+            </li>
+        </ul>
+    </nav>
+}

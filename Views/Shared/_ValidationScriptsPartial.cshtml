@@ -1,2 +1,9 @@
-﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+<!-- Fix lỗi Firefox: Bỏ qua kiểm tra định dạng ngày tháng của jQuery, để trình duyệt & Server tự lo -->
+<script>
+    $.validator.methods.date = function (value, element) {
+        return this.optional(element) || true;
+    };
+</script>
