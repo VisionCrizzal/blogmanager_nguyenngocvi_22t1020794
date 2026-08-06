@@ -1,0 +1,27 @@
+@model blogmanager_nguyenngocvi_22t1020794.Models.Category
+
+@{
+    ViewData["Title"] = "Thêm chuyên mục";
+}
+
+<div class="card shadow-sm border-0 bg-glass p-4 mt-4" style="max-width: 500px; margin: 0 auto;">
+    <h2>📝 Thêm chuyên mục mới</h2>
+    <hr />
+
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger fw-bold"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label fw-bold"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu chuyên mục</button>
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Hủy</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,22 @@
+@model blogmanager_nguyenngocvi_22t1020794.Models.Category
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="card shadow-sm border-0 bg-glass mt-4 p-4" style="max-width: 600px; margin: 0 auto;">
+    <div class="card-header bg-primary text-white text-center">
+        <h2 class="mb-0">@Model.Name</h2>
+    </div>
+    
+    <div class="card-body">
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Tên chuyên mục:</strong> @Model.Name</p>
+    </div>
+
+    <div class="card-footer bg-transparent">
+        <a asp-action="Index" class="btn btn-secondary w-100">
+            ⬅ Quay lại danh sách
+        </a>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+@using blogmanager_nguyenngocvi_22t1020794.Models
+@model List<Category>
+
+@{
+    ViewData["Title"] = "Danh sách chuyên mục";
+    var search = ViewBag.Search as string;
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    int totalCategories = ViewBag.TotalCategories;
+}
+
+<h1>Danh sách chuyên mục</h1>
+
+<!-- Nút Thêm -->
+<a asp-action="Create" class="btn btn-outline-success mb-3">⊕ Thêm chuyên mục</a>
+
+<!-- Thanh tìm kiếm -->
+<form asp-action="Index" method="get" class="d-flex mb-3" style="max-width: 400px;">
+    <input type="text" name="search" value="@search" class="form-control me-2" placeholder="Tìm kiếm theo tên..." />
+    <button type="submit" class="btn btn-primary">🔍 Tìm kiếm</button>
+</form>
+
+@if (!string.IsNullOrEmpty(search))
+{
+    <p class="text-muted">Kết quả tìm kiếm cho: "<strong>@search</strong>" — @totalCategories kết quả</p>
+}
+
+<!-- Bảng danh sách -->
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Tên chuyên mục</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@category.Id" class="btn btn-sm btn-outline-info">Xem chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-outline-warning">✏ Sửa</a>
+                    <!-- Nút Xóa bằng Modal -->
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                            data-bs-toggle="modal" data-bs-target="#deleteModal-@category.Id">
+                        🗑 Xóa
+                    </button>
+                </td>
+            </tr>
+
+            <!-- Modal xác nhận xóa -->
+            <div class="modal fade" id="deleteModal-@category.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@category.Id" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel-@category.Id">Xác nhận xóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa chuyên mục <strong>"@category.Name"</strong> không?
+                            <br />Thao tác này không thể hoàn tác.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <form asp-action="Delete" asp-route-id="@category.Id" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger">Đúng, hãy xóa!</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
+
+<!-- Phân trang -->
+@if (totalPages > 1)
+{
+    <nav aria-label="Phân trang">
+        <ul class="pagination justify-content-center">
+            @* Nút Previous *@
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-search="@search">«</a>
+            </li>
+
+            @* Các số trang *@
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@search">@i</a>
+                </li>
+            }
+
+            @* Nút Next *@
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-search="@search">»</a>
+            </li>
+        </ul>
+    </nav>
+}
