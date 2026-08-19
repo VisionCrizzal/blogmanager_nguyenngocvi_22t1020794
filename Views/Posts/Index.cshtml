@@ -1,12 +1,8 @@
 @using blogmanager_nguyenngocvi_22t1020794.Models
-@model List<Post>
+@model blogmanager_nguyenngocvi_22t1020794.ViewModels.PostListViewModel
 
 @{
     ViewData["Title"] = "Danh sách bài viết";
-    var search = ViewBag.Search as string;
-    int currentPage = ViewBag.CurrentPage;
-    int totalPages = ViewBag.TotalPages;
-    int totalPosts = ViewBag.TotalPosts;
 }
 
 <h1>Danh sách bài viết</h1>
@@ -14,32 +10,74 @@
 <!-- Nút Thêm bài viết -->
 <a asp-action="Create" class="btn btn-outline-success mb-3">⊕ Thêm bài viết</a>
 
-<!-- Thanh tìm kiếm -->
-<form asp-action="Index" method="get" class="d-flex mb-3" style="max-width: 400px;">
-    <input type="text" name="search" value="@search" class="form-control me-2" placeholder="Tìm kiếm theo tiêu đề hoặc tác giả..." />
-    <button type="submit" class="btn btn-primary">🔍 Tìm kiếm</button>
+<!-- Thanh tìm kiếm + Lọc danh mục -->
+<form asp-action="Index" method="get" class="row g-2 mb-3 align-items-center">
+    <div class="col-auto">
+        <select name="categoryId" class="form-select" style="min-width: 180px;">
+            <option value="">-- Tất cả danh mục --</option>
+            @if (Model.Categories != null)
+            {
+                @foreach (var cat in Model.Categories)
+                {
+                    <option value="@cat.Id" selected="@(Model.CategoryId == cat.Id)">@cat.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="Tìm theo tiêu đề..." style="min-width: 200px;" />
+    </div>
+    <div class="col-auto">
+        <select name="sort" class="form-select">
+            <option value="">Sắp xếp: Mới nhất (mặc định)</option>
+            <option value="oldest" selected="@(Model.Sort == "oldest")">Sắp xếp: Cũ nhất</option>
+            <option value="title" selected="@(Model.Sort == "title")">Sắp xếp: Theo tiêu đề</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Tìm</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Bỏ lọc</a>
+    </div>
 </form>
 
-@if (!string.IsNullOrEmpty(search))
+@if (!string.IsNullOrEmpty(Model.Search) || Model.CategoryId.HasValue || !string.IsNullOrEmpty(Model.Sort))
 {
-    <p class="text-muted">Kết quả tìm kiếm cho: "<strong>@search</strong>" — @totalPosts kết quả</p>
+    <p class="text-muted">Tìm thấy <strong>@Model.TotalPosts</strong> kết quả</p>
 }
 
 <!-- Bảng danh sách bài viết -->
+<div class="table-responsive">
 <table class="table table-bordered table-hover">
     <thead class="table-light">
         <tr>
             <th>Tiêu đề</th>
+            <th>Danh mục</th>
+            <th>Thẻ</th>
             <th>Ngày xuất bản</th>
             <th>Trạng thái</th>
             <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var post in Model)
+        @foreach (var post in Model.Posts)
         {
             <tr>
                 <td>@post.Title</td>
+                <td>
+                    @if (post.Category != null)
+                    {
+                        <span class="badge bg-info text-dark">@post.Category.Name</span>
+                    }
+                </td>
+                <td>
+                    @if (post.Tags != null && post.Tags.Any())
+                    {
+                        @foreach (var tag in post.Tags)
+                        {
+                            <span class="badge bg-warning text-dark me-1">@tag.Name</span>
+                        }
+                    }
+                </td>
                 <td>@post.PublishedAt.ToString("dd/MM/yyyy")</td>
                 <td>
                     @if (post.IsPublished)
@@ -54,7 +92,6 @@
                 <td>
                     <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-sm btn-outline-info">Xem chi tiết</a>
                     <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-outline-warning">✏ Sửa</a>
-                    <a asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-outline-secondary">🗑 Xóa (trang)</a>
                     <!-- Nút Xóa bằng Modal -->
                     <button type="button" class="btn btn-sm btn-outline-danger"
                             data-bs-toggle="modal" data-bs-target="#deleteModal-@post.Id">
@@ -63,13 +100,13 @@
                 </td>
             </tr>
 
-            <!-- Modal xác nhận xóa cho từng bài viết -->
-            <div class="modal fade" id="deleteModal-@post.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@post.Id" aria-hidden="true">
+            <!-- Modal xác nhận xóa -->
+            <div class="modal fade" id="deleteModal-@post.Id" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel-@post.Id">Xác nhận xóa</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title">Xác nhận xóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             Bạn có chắc chắn muốn xóa bài viết <strong>"@post.Title"</strong> không?
@@ -88,28 +125,24 @@
         }
     </tbody>
 </table>
+</div>
 
 <!-- Phân trang -->
-@if (totalPages > 1)
+@if (Model.TotalPages > 1)
 {
     <nav aria-label="Phân trang">
         <ul class="pagination justify-content-center">
-            @* Nút Previous *@
-            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-search="@search">«</a>
+            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-search="@Model.Search" asp-route-categoryId="@Model.CategoryId" asp-route-sort="@Model.Sort">«</a>
             </li>
-
-            @* Các số trang *@
-            @for (int i = 1; i <= totalPages; i++)
+            @for (int i = 1; i <= Model.TotalPages; i++)
             {
-                <li class="page-item @(i == currentPage ? "active" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@search">@i</a>
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@Model.Search" asp-route-categoryId="@Model.CategoryId" asp-route-sort="@Model.Sort">@i</a>
                 </li>
             }
-
-            @* Nút Next *@
-            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-search="@search">»</a>
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-search="@Model.Search" asp-route-categoryId="@Model.CategoryId" asp-route-sort="@Model.Sort">»</a>
             </li>
         </ul>
     </nav>

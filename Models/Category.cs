@@ -10,4 +10,7 @@ public class Category
     [StringLength(100, MinimumLength = 2, ErrorMessage = "Tên chuyên mục từ 2 đến 100 ký tự")]
     [Display(Name = "Tên chuyên mục")]
     public string Name { get; set; } = string.Empty;
+
+    // Navigation 1-N: Một Category có nhiều Post
+    public List<Post> Posts { get; set; } = new();
 }

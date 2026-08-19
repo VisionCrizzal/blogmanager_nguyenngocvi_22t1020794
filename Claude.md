@@ -82,7 +82,7 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Refactor `PostsController.cs` — thay `GetDummyPosts()` bằng truy vấn từ `ApplicationDbContext` (Dependency Injection)
 *   [x] Kiểm tra action `Index` và `Details` hoạt động với dữ liệu từ SQLite
 
-### 📝 Buổi 5–6 — CRUD + Tìm kiếm + Phân trang (Đang thực hiện)
+### ✅ Buổi 5–6 — CRUD, Quan hệ, Tìm kiếm, Sắp xếp, Phân trang (DONE)
 *   [x] Thêm action `Create` (GET + POST) vào `PostsController` — form tạo bài viết mới
 *   [x] Thêm action `Edit` (GET + POST) — form chỉnh sửa bài viết
 *   [x] Thêm action `Delete` (GET + POST) — xác nhận và xóa bài viết
@@ -90,9 +90,14 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Thêm Data Annotations vào `Post.cs` (`[Required]`, `[StringLength]`, `[Display]`) để validate form
 *   [x] Sửa lỗi validation form Edit (Author bị null → ModelState invalid)
 *   [x] Tối ưu responsive mobile toàn bộ web (CSS media queries)
-*   [x] Implement tìm kiếm (Search) theo Title/Author
-*   [x] Implement phân trang (Pagination) cho danh sách bài viết
-*   [ ] Thiết kế `ViewModel` chuyên biệt nếu cần gom dữ liệu phức tạp
+*   [x] Thiết lập quan hệ 1-N (Post-Category) và N-N (Post-Tag), tạo bảng nối `PostTag`
+*   [x] Cập nhật DbContext, chạy migration và update database
+*   [x] Sử dụng `Include` (Eager Loading) để nạp dữ liệu liên kết Category và Tags
+*   [x] Nâng cấp tìm kiếm: Lọc theo Category và Từ khóa
+*   [x] Thêm Sắp xếp (Sort) bằng LINQ `OrderBy` / `OrderByDescending` (theo Mới nhất, Cũ nhất, Tiêu đề)
+*   [x] Cập nhật Form Create/Edit: Thêm Dropdown chọn Category và Checkbox tạo/chọn Tags
+*   [x] Implement phân trang (Pagination) kết hợp giữ nguyên bộ lọc và sắp xếp
+*   [x] Thiết kế `ViewModel` chuyên biệt (`PostListViewModel`) thay thế ViewBag để gom nhóm dữ liệu phân trang, lọc, danh sách
 
 ### 🔐 Buổi 7 — Identity & Phân quyền (TODO)
 *   [ ] Tích hợp ASP.NET Core Identity (Đăng nhập, đăng ký)

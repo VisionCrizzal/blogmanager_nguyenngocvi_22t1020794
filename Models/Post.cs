@@ -19,6 +19,13 @@ public class Post
     public string Author { get; set; } = string.Empty;
     public int ViewCount { get; set; } = 0;
 
+    // Quan hệ 1-N: Mỗi Post thuộc 1 Category
+    public int CategoryId { get; set; }                 // khóa ngoại
+    public Category? Category { get; set; }             // navigation
+
+    // Quan hệ N-N: Mỗi Post có nhiều Tag
+    public List<Tag> Tags { get; set; } = new();
+
     public string MoTaNgan() => $"{Title} ({PublishedAt:dd/MM/yyyy})";
 
     // 👉 THÊM PHẦN MỞ RỘNG CỦA BÀI TẬP VỀ NHÀ:

@@ -4,6 +4,7 @@ using blogmanager_nguyenngocvi_22t1020794.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace blogmanager_nguyenngocvi_22t1020794.Controllers
 {
@@ -16,46 +17,66 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string? search, int page = 1)
+        public async Task<IActionResult> Index(string? search, int? categoryId, string? sort, int page = 1)
         {
-            int pageSize = 5; // Số bài viết mỗi trang
+            int pageSize = 5;
 
-            // Bắt đầu từ toàn bộ bài viết
-            var query = _context.Posts.AsQueryable();
+            // Include để nạp dữ liệu liên kết (Eager Loading)
+            var query = _context.Posts
+                .Include(p => p.Category)
+                .Include(p => p.Tags)
+                .AsQueryable();
 
-            // Lọc theo từ khóa tìm kiếm (nếu có)
+            // Lọc theo từ khóa tìm kiếm
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(p => p.Title.Contains(search) || p.Author.Contains(search));
             }
 
-            // Đếm tổng số bài (sau khi lọc)
+            // Lọc theo danh mục (dropdown)
+            if (categoryId.HasValue && categoryId > 0)
+            {
+                query = query.Where(p => p.CategoryId == categoryId);
+            }
+
+            // Sắp xếp bằng LINQ (switch)
+            query = sort switch
+            {
+                "title" => query.OrderBy(p => p.Title),
+                "oldest" => query.OrderBy(p => p.PublishedAt),
+                _ => query.OrderByDescending(p => p.PublishedAt)
+            };
+
             int totalPosts = await query.CountAsync();
             int totalPages = (int)Math.Ceiling((double)totalPosts / pageSize);
 
-            // Sắp xếp + Phân trang (Skip/Take)
             var posts = await query
-                .OrderByDescending(p => p.PublishedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            // Truyền thông tin phân trang sang View
-            ViewData["Title"] = "Danh sách bài viết";
-            ViewBag.Search = search;
-            ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = totalPages;
-            ViewBag.TotalPosts = totalPosts;
+            // Sử dụng ViewModel thay cho ViewBag
+            var viewModel = new blogmanager_nguyenngocvi_22t1020794.ViewModels.PostListViewModel
+            {
+                Posts = posts,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                Search = search,
+                Sort = sort,
+                CategoryId = categoryId,
+                TotalPosts = totalPosts,
+                Categories = await _context.Categories.OrderBy(c => c.Name).ToListAsync()
+            };
 
-            return View(posts);
+            return View(viewModel);
         }
 
-        // Yêu cầu 3: Tạo Action Details(int id)
         public async Task<IActionResult> Details(int id)
         {
-            // Dùng AsNoTracking để luôn lấy dữ liệu mới nhất từ database
             var post = await _context.Posts
                 .AsNoTracking()
+                .Include(p => p.Category)
+                .Include(p => p.Tags)
                 .FirstOrDefaultAsync(p => p.Id == id);
             
             if (post == null) 
@@ -63,43 +84,116 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
 
             return View(post); 
         }
-        public IActionResult Create() => View();
+
+        public async Task<IActionResult> Create()
+        {
+            ViewBag.Categories = new SelectList(
+                await _context.Categories.OrderBy(c => c.Name).ToListAsync(), "Id", "Name");
+            ViewBag.AllTags = await _context.Tags.OrderBy(t => t.Name).ToListAsync();
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Post post)
+        public async Task<IActionResult> Create(Post post, int[] selectedTags, string? newTags)
         {
             if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = new SelectList(
+                    await _context.Categories.OrderBy(c => c.Name).ToListAsync(), "Id", "Name");
+                ViewBag.AllTags = await _context.Tags.OrderBy(t => t.Name).ToListAsync();
                 return View(post);
+            }
+
+            // Gắn Tags đã chọn
+            if (selectedTags != null && selectedTags.Length > 0)
+            {
+                post.Tags = await _context.Tags.Where(t => selectedTags.Contains(t.Id)).ToListAsync();
+            }
+
+            // Tạo Tags mới (nếu có)
+            if (!string.IsNullOrWhiteSpace(newTags))
+            {
+                var tagNames = newTags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                foreach (var tagName in tagNames)
+                {
+                    var existing = await _context.Tags.FirstOrDefaultAsync(t => t.Name == tagName);
+                    if (existing != null)
+                    {
+                        post.Tags.Add(existing);
+                    }
+                    else
+                    {
+                        var newTag = new Tag { Name = tagName };
+                        _context.Tags.Add(newTag);
+                        post.Tags.Add(newTag);
+                    }
+                }
+            }
 
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         public async Task<IActionResult> Edit(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts
+                .Include(p => p.Tags)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (post == null) return NotFound();
+
+            ViewBag.Categories = new SelectList(
+                await _context.Categories.OrderBy(c => c.Name).ToListAsync(), "Id", "Name", post.CategoryId);
+            ViewBag.AllTags = await _context.Tags.OrderBy(t => t.Name).ToListAsync();
             return View(post);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Post post)
+        public async Task<IActionResult> Edit(int id, Post post, int[] selectedTags, string? newTags)
         {
             if (id != post.Id) return NotFound();
 
-            // Lấy bài viết gốc từ database
-            var existing = await _context.Posts.FindAsync(id);
+            var existing = await _context.Posts
+                .Include(p => p.Tags)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (existing == null) return NotFound();
 
-            // Ghi đè từng trường (fetch-then-update pattern)
+            // Ghi đè từng trường
             existing.Title = post.Title;
             existing.Content = post.Content;
             existing.Author = post.Author;
             existing.PublishedAt = post.PublishedAt;
             existing.IsPublished = post.IsPublished;
             existing.ViewCount = post.ViewCount;
+            existing.CategoryId = post.CategoryId;
+
+            // Cập nhật Tags: xóa hết rồi gắn lại
+            existing.Tags.Clear();
+            if (selectedTags != null && selectedTags.Length > 0)
+            {
+                var tags = await _context.Tags.Where(t => selectedTags.Contains(t.Id)).ToListAsync();
+                foreach (var tag in tags) existing.Tags.Add(tag);
+            }
+
+            // Tạo Tags mới
+            if (!string.IsNullOrWhiteSpace(newTags))
+            {
+                var tagNames = newTags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                foreach (var tagName in tagNames)
+                {
+                    var existingTag = await _context.Tags.FirstOrDefaultAsync(t => t.Name == tagName);
+                    if (existingTag != null)
+                        existing.Tags.Add(existingTag);
+                    else
+                    {
+                        var newTag = new Tag { Name = tagName };
+                        _context.Tags.Add(newTag);
+                        existing.Tags.Add(newTag);
+                    }
+                }
+            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -107,7 +201,9 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (post == null) return NotFound();
             return View(post);
         }

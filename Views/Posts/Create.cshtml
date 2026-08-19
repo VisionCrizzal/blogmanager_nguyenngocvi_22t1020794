@@ -1,10 +1,11 @@
 @model blogmanager_nguyenngocvi_22t1020794.Models.Post
 
 @{
-    ViewData["Title"] = "Tạo bài viết";
+    ViewData["Title"] = "Thêm bài viết";
+    var allTags = ViewBag.AllTags as List<blogmanager_nguyenngocvi_22t1020794.Models.Tag> ?? new();
 }
 
-<div class="card shadow-sm border-0 bg-glass p-4 mt-4" style="max-width: 600px; margin: 0 auto;">
+<div class="card shadow-sm border-0 bg-glass p-4 mt-4" style="max-width: 700px; margin: 0 auto;">
     <h2>📝 Thêm bài viết mới</h2>
     <hr />
 
@@ -22,21 +23,58 @@
             <input asp-for="Author" class="form-control" />
             <span asp-validation-for="Author" class="text-danger"></span>
         </div>
+
+        <!-- Dropdown Danh mục (Quan hệ 1-N) -->
+        <div class="mb-3">
+            <label asp-for="CategoryId" class="form-label fw-bold">Danh mục</label>
+            <select asp-for="CategoryId" asp-items="ViewBag.Categories as Microsoft.AspNetCore.Mvc.Rendering.SelectList" class="form-select">
+                <option value="">-- Chọn danh mục --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
         
         <div class="mb-3">
             <label asp-for="Content" class="form-label fw-bold">Nội dung</label>
             <textarea asp-for="Content" class="form-control" rows="5"></textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
+
+        <!-- Chọn Thẻ (Tags) — Quan hệ N-N -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Thẻ</label>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var tag in allTags)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="selectedTags" value="@tag.Id" id="tag-@tag.Id" />
+                        <label class="form-check-label badge bg-warning text-dark" for="tag-@tag.Id" style="cursor: pointer;">
+                            @tag.Name
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Tạo Thẻ mới -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Thẻ mới</label>
+            <input type="text" name="newTags" class="form-control" placeholder="Ví dụ: Razor Pages, Middleware" />
+            <small class="text-muted">Thẻ chưa có trong danh sách thì gõ vào đây, cách nhau bởi dấu phẩy.</small>
+        </div>
         
         <div class="mb-3">
             <label asp-for="PublishedAt" class="form-label fw-bold"></label>
-            <input type="date" class="form-control" name="PublishedAt" id="PublishedAt" value="@Model?.PublishedAt.ToString("yyyy-MM-dd")" />
+            <input type="date" class="form-control" name="PublishedAt" id="PublishedAt" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <span asp-validation-for="PublishedAt" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Lưu bài viết</button>
-        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Hủy</a>
+        <div class="mb-3 form-check">
+            <input asp-for="IsPublished" class="form-check-input" />
+            <label asp-for="IsPublished" class="form-check-label fw-bold">Xuất bản</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">💾 Lưu</button>
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">← Quay lại</a>
     </form>
 </div>
 
