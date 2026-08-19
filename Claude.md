@@ -125,16 +125,16 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Gán Role "Admin" cho tài khoản seed
 
 **Phần 5 — Live coding: Tích hợp + phân quyền 3 mức (40 phút)**
-*   [ ] Tích hợp toàn bộ Identity vào project BlogManager
-*   [ ] Phân quyền 3 mức: Anonymous (xem), User (tạo bài), Admin (sửa/xóa tất cả)
-*   [ ] Tạo giao diện Đăng nhập / Đăng ký / Đăng xuất
-*   [ ] Hiển thị nút Login/Logout/Register trên thanh điều hướng (navbar)
+*   [x] Tích hợp toàn bộ Identity vào project BlogManager
+*   [x] Phân quyền 3 mức: Anonymous (xem), User (tạo bài), Admin (sửa/xóa tất cả)
+*   [x] Tạo giao diện Đăng nhập / Đăng ký / Đăng xuất (Identity.UI Razor Pages)
+*   [x] Hiển thị nút Login/Logout/Register trên thanh điều hướng (navbar — `_LoginPartial`)
 
 **Phần 6 — Thực hành + Git + tổng kết (30 phút)**
-*   [ ] Kiểm tra: đăng ký tài khoản mới → đăng nhập → tạo bài viết
-*   [ ] Kiểm tra: user thường không sửa/xóa bài người khác
-*   [ ] Kiểm tra: admin quản lý được tất cả
-*   [ ] `git add .` → `git commit -m "Add Identity authentication and role-based authorization"`
+*   [ ] Kiểm tra: Chưa đăng nhập → xem được /Posts, Details; bấm Thêm/Sửa → chuyển trang đăng nhập
+*   [ ] Kiểm tra: User tự đăng ký → đăng nhập → Thêm/Sửa được; **không** thấy nút Xóa
+*   [ ] Kiểm tra: Admin (admin@blogmanager.local / Admin@123) → thấy và dùng được nút Xóa
+*   [x] `git add .` → `git commit -m "Add Identity authentication and role-based authorization"`
 
 ### 🚀 Buổi 10–11 — Deploy & API (TODO)
 *   [ ] Đóng gói, triển khai (Deploy) website lên môi trường thực tế (Cloud)
