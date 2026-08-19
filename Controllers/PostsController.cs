@@ -17,7 +17,7 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string? search, int? categoryId, string? sort, int page = 1)
+        public async Task<IActionResult> Index(string? search, int? categoryId, int? tagId, string? sort, int page = 1)
         {
             int pageSize = 5;
 
@@ -37,6 +37,12 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             if (categoryId.HasValue && categoryId > 0)
             {
                 query = query.Where(p => p.CategoryId == categoryId);
+            }
+
+            // Lọc theo thẻ
+            if (tagId.HasValue && tagId > 0)
+            {
+                query = query.Where(p => p.Tags.Any(t => t.Id == tagId));
             }
 
             // Sắp xếp bằng LINQ (switch)
@@ -64,8 +70,10 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
                 Search = search,
                 Sort = sort,
                 CategoryId = categoryId,
+                TagId = tagId,
                 TotalPosts = totalPosts,
-                Categories = await _context.Categories.OrderBy(c => c.Name).ToListAsync()
+                Categories = await _context.Categories.OrderBy(c => c.Name).ToListAsync(),
+                Tags = await _context.Tags.OrderBy(t => t.Name).ToListAsync()
             };
 
             return View(viewModel);
