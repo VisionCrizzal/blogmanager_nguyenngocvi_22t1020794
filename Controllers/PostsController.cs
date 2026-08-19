@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using blogmanager_nguyenngocvi_22t1020794.Models;
 using blogmanager_nguyenngocvi_22t1020794.Data;
 using System.Linq;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace blogmanager_nguyenngocvi_22t1020794.Controllers
 {
+    [Authorize]
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -17,6 +19,7 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string? search, int? categoryId, int? tagId, string? sort, int page = 1)
         {
             int pageSize = 5;
@@ -79,6 +82,7 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             return View(viewModel);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var post = await _context.Posts
@@ -207,6 +211,7 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var post = await _context.Posts
@@ -218,6 +223,7 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var post = await _context.Posts.FindAsync(id);

@@ -1,0 +1,20 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="d-flex align-items-center ms-auto">
+        <span class="text-dark me-2">Xin chào, <strong>@User.Identity?.Name</strong>!</span>
+        <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+            <button type="submit" class="btn btn-outline-danger btn-sm">🚪 Đăng xuất</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="d-flex align-items-center ms-auto">
+        <a class="btn btn-outline-primary btn-sm me-1" asp-area="Identity" asp-page="/Account/Login">🔑 Đăng nhập</a>
+        <a class="btn btn-outline-success btn-sm" asp-area="Identity" asp-page="/Account/Register">📝 Đăng ký</a>
+    </div>
+}

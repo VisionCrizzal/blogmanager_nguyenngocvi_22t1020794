@@ -100,9 +100,41 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Thiết kế `ViewModel` chuyên biệt (`PostListViewModel`) thay thế ViewBag để gom nhóm dữ liệu phân trang, lọc, danh sách
 
 ### 🔐 Buổi 7 — Identity & Phân quyền (TODO)
-*   [ ] Tích hợp ASP.NET Core Identity (Đăng nhập, đăng ký)
-*   [ ] Phân quyền Admin/User
-*   [ ] Bảo vệ các action CRUD (chỉ Admin hoặc chủ bài viết mới được sửa/xóa)
+> ⚠️ **Lưu ý:** Buổi này mình bị hỏng màn Mac nên không thực hành được trên lớp, cần làm bù kỹ hơn.
+
+**Phần 1 — Xác thực vs Phân quyền; Identity (25 phút lý thuyết)**
+*   [ ] Hiểu khái niệm Authentication (xác thực — "bạn là ai?") vs Authorization (phân quyền — "bạn được làm gì?")
+*   [ ] Tổng quan ASP.NET Core Identity: hệ thống quản lý User, Role, Claims tích hợp sẵn
+
+**Phần 2 — Cấu hình Identity + hash mật khẩu (30 phút)**
+*   [x] Cài package `Microsoft.AspNetCore.Identity.EntityFrameworkCore` + `Microsoft.AspNetCore.Identity.UI`
+*   [x] Đổi `ApplicationDbContext` kế thừa `IdentityDbContext` thay vì `DbContext`
+*   [x] Đăng ký Identity vào `Program.cs` (`AddDefaultIdentity<IdentityUser>()` + `AddRoles` + middleware)
+*   [x] Chạy migration `AddIdentity` → tạo bảng AspNetUsers, AspNetRoles, ...
+*   [x] Hiểu cơ chế hash mật khẩu (không lưu plaintext — cột PasswordHash trong AspNetUsers)
+
+**Phần 3 — `[Authorize]` + vai trò (25 phút)**
+*   [x] Gắn `[Authorize]` lên Controller PostsController để yêu cầu đăng nhập
+*   [x] Dùng `[AllowAnonymous]` cho các trang công khai (Index, Details)
+*   [x] Dùng `[Authorize(Roles = "Admin")]` để giới hạn Delete chỉ cho Admin
+*   [x] Ẩn/hiện nút trong View theo vai trò (Thêm: đăng nhập, Sửa: đăng nhập, Xóa: Admin)
+
+**Phần 4 — Seed Role & Admin (20 phút)**
+*   [x] Tạo sẵn các Role (Admin, User) khi khởi động ứng dụng
+*   [x] Seed tài khoản Admin mặc định (admin@blogmanager.local / Admin@123)
+*   [x] Gán Role "Admin" cho tài khoản seed
+
+**Phần 5 — Live coding: Tích hợp + phân quyền 3 mức (40 phút)**
+*   [ ] Tích hợp toàn bộ Identity vào project BlogManager
+*   [ ] Phân quyền 3 mức: Anonymous (xem), User (tạo bài), Admin (sửa/xóa tất cả)
+*   [ ] Tạo giao diện Đăng nhập / Đăng ký / Đăng xuất
+*   [ ] Hiển thị nút Login/Logout/Register trên thanh điều hướng (navbar)
+
+**Phần 6 — Thực hành + Git + tổng kết (30 phút)**
+*   [ ] Kiểm tra: đăng ký tài khoản mới → đăng nhập → tạo bài viết
+*   [ ] Kiểm tra: user thường không sửa/xóa bài người khác
+*   [ ] Kiểm tra: admin quản lý được tất cả
+*   [ ] `git add .` → `git commit -m "Add Identity authentication and role-based authorization"`
 
 ### 🚀 Buổi 10–11 — Deploy & API (TODO)
 *   [ ] Đóng gói, triển khai (Deploy) website lên môi trường thực tế (Cloud)
