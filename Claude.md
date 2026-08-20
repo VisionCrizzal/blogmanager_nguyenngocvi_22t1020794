@@ -180,6 +180,11 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 **Phần 6 — Thực hành + tổng kết dự án (30 phút)**
 *   [x] Test API qua Swagger UI
 *   [x] `git add .` → `git commit -m "Add RESTful API for posts with DTO, validation and Swagger"`
+**Bài tập về nhà — Mở rộng**
+*   [x] Thêm tìm kiếm (`search`) cho `GET /api/posts`
+*   [x] Thêm phân trang (`page`, `pageSize`) cho `GET /api/posts`
+*   [x] Bảo vệ `DELETE` bằng `[Authorize(Roles="Admin")]` (đã làm ở Phần 4)
+*   [x] `git add .` → `git commit -m "Add search and pagination to GET API posts"`
 
 ## 7. Ý tưởng Mở rộng & Cảm hứng (Creative Playground)
 Nếu có thời gian rảnh rỗi và muốn làm gì đó "vượt ra ngoài bài giảng" để thoả mãn đam mê code, đây là một số ý tưởng cực hay để nâng cấp giao diện và tính năng cho dự án:

@@ -22,9 +22,18 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers.Api
 
         // GET /api/posts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(string? search, int page = 1, int pageSize = 10)
         {
-            var posts = await _context.Posts
+            var query = _context.Posts.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(p => p.Title.Contains(search) || p.Content.Contains(search));
+            }
+
+            var posts = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(p => new PostDto { 
                     Id = p.Id, 
                     Title = p.Title, 
