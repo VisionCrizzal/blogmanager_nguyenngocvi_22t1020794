@@ -26,6 +26,9 @@ public class Post
     // Quan hệ N-N: Mỗi Post có nhiều Tag
     public List<Tag> Tags { get; set; } = new();
 
+    // Mở rộng Buổi 7: Chủ sở hữu bài viết (FK đến IdentityUser)
+    public string? OwnerId { get; set; }
+
     public string MoTaNgan() => $"{Title} ({PublishedAt:dd/MM/yyyy})";
 
     // 👉 THÊM PHẦN MỞ RỘNG CỦA BÀI TẬP VỀ NHÀ:

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using blogmanager_nguyenngocvi_22t1020794.Models;
 using blogmanager_nguyenngocvi_22t1020794.Data;
 using System.Linq;
@@ -143,6 +144,9 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
                 }
             }
 
+            // Gán OwnerId = user hiện tại
+            post.OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -154,6 +158,11 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
                 .Include(p => p.Tags)
                 .FirstOrDefaultAsync(p => p.Id == id);
             if (post == null) return NotFound();
+
+            // Kiểm tra quyền: chỉ chủ sở hữu hoặc Admin mới được sửa
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (post.OwnerId != null && post.OwnerId != userId && !User.IsInRole("Admin"))
+                return Forbid();
 
             ViewBag.Categories = new SelectList(
                 await _context.Categories.OrderBy(c => c.Name).ToListAsync(), "Id", "Name", post.CategoryId);
@@ -171,6 +180,11 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
                 .Include(p => p.Tags)
                 .FirstOrDefaultAsync(p => p.Id == id);
             if (existing == null) return NotFound();
+
+            // Kiểm tra quyền: chỉ chủ sở hữu hoặc Admin mới được sửa
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (existing.OwnerId != null && existing.OwnerId != userId && !User.IsInRole("Admin"))
+                return Forbid();
 
             // Ghi đè từng trường
             existing.Title = post.Title;
@@ -218,6 +232,11 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
             if (post == null) return NotFound();
+
+            // Admin hoặc chủ sở hữu mới được xóa
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (post.OwnerId != null && post.OwnerId != userId && !User.IsInRole("Admin"))
+                return Forbid();
             return View(post);
         }
 

@@ -130,11 +130,14 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Tạo giao diện Đăng nhập / Đăng ký / Đăng xuất (Identity.UI Razor Pages)
 *   [x] Hiển thị nút Login/Logout/Register trên thanh điều hướng (navbar — `_LoginPartial`)
 
-**Phần 6 — Thực hành + Git + tổng kết (30 phút)**
+**Phần 6 — Thực hành trên lớp + Git + tổng kết (30 phút)**
+> 📝 **Đề bài:** Tích hợp Identity với 3 mức quyền. Đầu ra: ảnh chụp ở cả 3 trạng thái + commit.
+
 *   [ ] Kiểm tra: Chưa đăng nhập → xem được /Posts, Details; bấm Thêm/Sửa → chuyển trang đăng nhập
 *   [ ] Kiểm tra: User tự đăng ký → đăng nhập → Thêm/Sửa được; **không** thấy nút Xóa
 *   [ ] Kiểm tra: Admin (admin@blogmanager.local / Admin@123) → thấy và dùng được nút Xóa
 *   [x] `git add .` → `git commit -m "Add Identity authentication and role-based authorization"`
+> ✅ Code đã hoàn thành 100%. Chỉ còn test thủ công trên trình duyệt và chụp ảnh nộp bài.
 
 ### 🚀 Buổi 10–11 — Deploy & API (TODO)
 *   [ ] Đóng gói, triển khai (Deploy) website lên môi trường thực tế (Cloud)
