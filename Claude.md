@@ -139,9 +139,47 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] `git add .` → `git commit -m "Add Identity authentication and role-based authorization"`
 > ✅ Code đã hoàn thành 100%. Chỉ còn test thủ công trên trình duyệt và chụp ảnh nộp bài.
 
-### 🚀 Buổi 10–11 — Deploy & API (TODO)
-*   [ ] Đóng gói, triển khai (Deploy) website lên môi trường thực tế (Cloud)
-*   [ ] Xây dựng RESTful API để cấp dữ liệu cho thiết bị ngoại vi (Mobile/Client khác)
+**Mở rộng Buổi 7 — OwnerId (chủ sở hữu bài viết)**
+*   [x] Thêm `OwnerId` (string? FK đến IdentityUser) vào model `Post`
+*   [x] Migration `AddOwnerIdToPost` → cột OwnerId trong bảng Posts
+*   [x] Gán `OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)` khi tạo bài mới
+*   [x] Kiểm tra phía server: chỉ **chủ sở hữu** hoặc **Admin** mới được sửa/xóa bài cụ thể
+*   [x] `git commit -m "Add OwnerId ownership check - only owner or Admin can edit/delete post"`
+
+### 🚀 Buổi 11 — RESTful API với ASP.NET Core, EF Core và Swagger (TODO)
+> 📚 Buổi này thầy cho tự học ở nhà. Thời lượng: 3 giờ.
+
+**Phần 1 — REST, HTTP method, mã trạng thái (25 phút lý thuyết)**
+*   [x] Hiểu REST là gì: kiến trúc giao tiếp Client-Server qua HTTP
+*   [x] Nắm các HTTP method: GET (lấy), POST (tạo), PUT (cập nhật), DELETE (xóa)
+*   [x] Các mã trạng thái thường dùng: 200 OK, 201 Created, 204 NoContent, 400 BadRequest, 404 NotFound, 401/403
+
+**Phần 2 — API Controller + DTO (30 phút)**
+*   [x] Tạo API Controller riêng (dùng `[ApiController]` + `[Route("api/[controller]")]`)
+*   [x] Đặt cùng ứng dụng MVC (chung project, khác folder Controllers/Api)
+*   [x] Tạo DTO (Data Transfer Object) để tách biệt dữ liệu API trả về với Model gốc
+
+**Phần 3 — CRUD API với EF Core (30 phút)**
+*   [x] GET `/api/posts` — lấy danh sách bài viết
+*   [x] GET `/api/posts/{id}` — lấy chi tiết 1 bài viết
+*   [x] POST `/api/posts` — tạo bài viết mới (nhận DTO, trả 201 Created)
+*   [x] PUT `/api/posts/{id}` — cập nhật bài viết (trả 204 NoContent)
+*   [x] DELETE `/api/posts/{id}` — xóa bài viết (trả 204 NoContent)
+*   [x] Thêm validation cho DTO
+
+**Phần 4 — Swagger + bảo mật API (20 phút)**
+*   [x] Cài và cấu hình Swagger UI (`Swashbuckle.AspNetCore`)
+*   [x] Truy cập `/swagger` để xem tài liệu API tự động
+*   [x] Bảo mật API: gắn `[Authorize]` cho các endpoint cần xác thực
+
+**Phần 5 — Live coding: API posts + kiểm thử Swagger (40 phút)**
+*   [x] Tạo `PostsApiController` hoàn chỉnh với CRUD
+*   [x] Tạo `PostDto` cho request/response
+*   [x] Kiểm thử trên Swagger UI: thử GET, POST, PUT, DELETE
+
+**Phần 6 — Thực hành + tổng kết dự án (30 phút)**
+*   [x] Test API qua Swagger UI
+*   [x] `git add .` → `git commit -m "Add RESTful API for posts with DTO, validation and Swagger"`
 
 ## 7. Ý tưởng Mở rộng & Cảm hứng (Creative Playground)
 Nếu có thời gian rảnh rỗi và muốn làm gì đó "vượt ra ngoài bài giảng" để thoả mãn đam mê code, đây là một số ý tưởng cực hay để nâng cấp giao diện và tính năng cho dự án:
