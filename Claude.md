@@ -146,6 +146,36 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Kiểm tra phía server: chỉ **chủ sở hữu** hoặc **Admin** mới được sửa/xóa bài cụ thể
 *   [x] `git commit -m "Add OwnerId ownership check - only owner or Admin can edit/delete post"`
 
+**Nâng cao Buổi 7 — Đăng nhập bằng tài khoản Google (TODO)**
+> 🔐 Bài tập nâng cao thầy ra thêm. Tích hợp nút "Đăng nhập bằng Google" vào trang Login.
+
+*   [x] **Bước 1 — Tạo OAuth 2.0 Credentials trên Google Cloud Console**
+    *   Truy cập [console.cloud.google.com](https://console.cloud.google.com) → tạo Project mới (hoặc dùng project cũ)
+    *   Vào **APIs & Services → Credentials → Create Credentials → OAuth client ID**
+    *   Application type: **Web application**
+    *   Authorized redirect URIs: `https://localhost:xxxx/signin-google` (port lấy từ `launchSettings.json`)
+    *   Lưu lại **Client ID** và **Client Secret**
+
+*   [x] **Bước 2 — Lưu Client ID & Secret an toàn bằng User Secrets**
+    *   Chạy `dotnet user-secrets init`
+    *   `dotnet user-secrets set "Authentication:Google:ClientId" "<YOUR_CLIENT_ID>"`
+    *   `dotnet user-secrets set "Authentication:Google:ClientSecret" "<YOUR_CLIENT_SECRET>"`
+
+*   [x] **Bước 3 — Cài NuGet package**
+    *   `dotnet add package Microsoft.AspNetCore.Authentication.Google`
+
+*   [x] **Bước 4 — Cấu hình Google Auth trong `Program.cs`**
+    *   Thêm `.AddGoogle(options => { ... })` vào chuỗi `AddDefaultIdentity`
+    *   Đọc `ClientId` và `ClientSecret` từ `Configuration`
+
+*   [x] **Bước 5 — Thêm nút "Đăng nhập bằng Google" vào giao diện**
+    *   Sửa `_LoginPartial.cshtml` hoặc trang Login của Identity để hiển thị nút External Login
+    *   Identity scaffold sẵn trang `ExternalLogin.cshtml` — chỉ cần đảm bảo nó hoạt động
+
+*   [x] **Bước 6 — Test & Commit**
+    *   Chạy `dotnet run`, bấm nút "Google", đăng nhập thành công
+    *   `git add .` → `git commit -m "Add Google external login"`
+
 ### 🚀 Buổi 11 — RESTful API với ASP.NET Core, EF Core và Swagger (TODO)
 > 📚 Buổi này thầy cho tự học ở nhà. Thời lượng: 3 giờ.
 
