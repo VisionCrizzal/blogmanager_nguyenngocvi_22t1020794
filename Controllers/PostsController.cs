@@ -225,7 +225,6 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var post = await _context.Posts
@@ -242,12 +241,16 @@ namespace blogmanager_nguyenngocvi_22t1020794.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var post = await _context.Posts.FindAsync(id);
             if (post != null) 
             { 
+                // Admin hoặc chủ sở hữu mới được xóa
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (post.OwnerId != null && post.OwnerId != userId && !User.IsInRole("Admin"))
+                    return Forbid();
+
                 _context.Posts.Remove(post);
                 await _context.SaveChangesAsync(); 
             }

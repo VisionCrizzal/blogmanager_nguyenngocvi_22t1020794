@@ -110,9 +110,11 @@
                     {
                         <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-outline-warning">✏ Sửa</a>
                     }
-                    @if (User.IsInRole("Admin"))
+                    @using System.Security.Claims
+                    @{ var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); }
+                    @if (User.IsInRole("Admin") || (post.OwnerId != null && post.OwnerId == userId))
                     {
-                        <!-- Nút Xóa bằng Modal (chỉ Admin) -->
+                        <!-- Nút Xóa bằng Modal (chỉ Admin hoặc Chủ sở hữu) -->
                         <button type="button" class="btn btn-sm btn-outline-danger"
                                 data-bs-toggle="modal" data-bs-target="#deleteModal-@post.Id">
                             🗑 Xóa

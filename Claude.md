@@ -146,7 +146,7 @@ Dựa theo giáo trình 11 buổi, dự án cần chuẩn bị tích hợp các 
 *   [x] Kiểm tra phía server: chỉ **chủ sở hữu** hoặc **Admin** mới được sửa/xóa bài cụ thể
 *   [x] `git commit -m "Add OwnerId ownership check - only owner or Admin can edit/delete post"`
 
-**Nâng cao Buổi 7 — Đăng nhập bằng tài khoản Google (TODO)**
+**Nâng cao Buổi 7 — Đăng nhập bằng tài khoản Google (DONE)**
 > 🔐 Bài tập nâng cao thầy ra thêm. Tích hợp nút "Đăng nhập bằng Google" vào trang Login.
 
 *   [x] **Bước 1 — Tạo OAuth 2.0 Credentials trên Google Cloud Console**
